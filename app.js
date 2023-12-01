@@ -4,7 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Define a route for handling GET requests
-app.get('/microservice', (req, res) => {
+app.get('/', (req, res) => {
     // Your microservice logic here
     const inputString = req.query.startingLocation;
     const jsonResponse = handleSearch(inputString)
