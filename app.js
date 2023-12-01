@@ -1,12 +1,27 @@
+'use strict';
+
 const express = require('express');
-const fetch = require('node-fetch');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const cors = require('cors');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
+app.use(cors({
+  origin: "http://localhost:3500",
+})
+);
+
+
+app.use(express.static('.'));
+
+app.use(express.urlencoded({
+    extended: true
+}));
 
 // Define a route for handling GET requests
-app.get('/', (req, res) => {
+app.get('/standalonePlaylistMicroservice/microservice', (req, res) => {
     // Your microservice logic here
     const inputString = req.query.startingLocation;
+    console.log(inputString);
     const jsonResponse = handleSearch(inputString)
     // Send the response as JSON
     res.json(jsonResponse);
