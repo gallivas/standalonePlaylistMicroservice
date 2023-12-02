@@ -19,24 +19,24 @@ app.use(express.urlencoded({
 }));
 
 // Define a route for handling GET requests
-app.get('/standalonePlaylistMicroservice/microservice', (req, res) => {
+app.get('/standalonePlaylistMicroservice/microservice', async (req, res) => {
     // Your microservice logic here
     const inputString = req.query.startingLocation;
     // console.log(inputString);
-    const jsonResponse = handleSearch(inputString);
-    console.log(jsonResponse); // LEFT OFF HERE
+    const jsonResponse = await handleSearch(inputString);
+    console.log(jsonResponse); // 2) LOGS RESULTS ARRAY
     // Send the response as JSON
+    // res.json(jsonResponse);
     res.json(jsonResponse);
 });
   
 async function handleSearch(selectedCity) {
   const apiKey = '07b953ac32c1e1c6b2407464986e0f65';
   // Fetch Last.fm tracks
-  console.log(selectedCity);
+  console.log(selectedCity); // 1) LOGS CITY NAME
   try {
       const response = await fetchLastFmTracks(apiKey, selectedCity);
-      console.log(response);
-      // return response;
+      return response;
       
   } catch (error) {
       console.error('Error fetching tracks:', error);
